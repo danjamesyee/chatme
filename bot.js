@@ -2,13 +2,15 @@
 // |__) /  \  |  |__/ |  |  
 // |__) \__/  |  |  \ |  |  
 
-// This is the main file for the Leinad bot.
+// This is the main file for the Yee bot.
 
 // Import Botkit's core features
 const { Botkit } = require('botkit');
 const { BotkitCMSHelper } = require('botkit-plugin-cms');
 
-// Import a platform-specific adapter for botframework.
+// Import a platform-specific adapter for web.
+
+const { WebAdapter } = require('botbuilder-adapter-web');
 
 const { MongoDbStorage } = require('botbuilder-storage-mongodb');
 
@@ -23,16 +25,13 @@ if (process.env.MONGO_URI) {
 }
 
 
-
+const adapter = new WebAdapter({});
 
 
 const controller = new Botkit({
     webhook_uri: '/api/messages',
 
-    adapterConfig: {
-        appId: process.env.APP_ID,
-        appPassword: process.env.APP_PASSWORD,
-    },
+    adapter: adapter,
 
     storage
 });
@@ -67,14 +66,5 @@ controller.ready(() => {
 
 
 
-controller.webserver.get('/', (req, res) => {
-
-    res.send(`This app is running Botkit ${ controller.version }.`);
-
-});
 
 
-
-
-
-//comment
